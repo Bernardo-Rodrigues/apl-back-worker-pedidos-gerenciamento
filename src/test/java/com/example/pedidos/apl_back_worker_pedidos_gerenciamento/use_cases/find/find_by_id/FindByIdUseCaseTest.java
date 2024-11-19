@@ -3,6 +3,7 @@ package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Item;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Pedido;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Produto;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.OrderNotFoundException;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.PedidoRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.dto.OrderDTO;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ class FindByIdUseCaseTest {
         Long pedidoId = 1L;
         Mockito.when(pedidoRepository.findById(pedidoId)).thenReturn(Optional.empty());
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> findByIdUseCase.execute(pedidoId));
-        assertEquals("Pedido não encontrado", exception.getMessage());
+        RuntimeException exception = assertThrows(OrderNotFoundException.class, () -> findByIdUseCase.execute(pedidoId));
+        assertEquals(new OrderNotFoundException(pedidoId).getMessage(), exception.getMessage());
     }
 }

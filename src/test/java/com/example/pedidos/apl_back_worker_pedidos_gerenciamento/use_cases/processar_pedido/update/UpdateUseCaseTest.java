@@ -1,6 +1,8 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.processar_pedido.update;
 
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Pedido;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.InvalidStatusException;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.OrderNotFoundException;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.PedidoRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.processar_pedido.update.dto.UpdateOrderDTO;
 import org.junit.jupiter.api.Test;
@@ -46,8 +48,8 @@ class UpdateUseCaseTest {
         when(pedidoRepository.findById(2L)).thenReturn(Optional.empty());
 
         // Act & Assert
-        var exception = assertThrows(RuntimeException.class, () -> updateUseCase.execute(orderDTO));
-        assertEquals("Pedido não encontrado", exception.getMessage());
+        var exception = assertThrows(OrderNotFoundException.class, () -> updateUseCase.execute(orderDTO));
+        assertEquals(new OrderNotFoundException(2L).getMessage(), exception.getMessage());
         verify(pedidoRepository, times(1)).findById(2L);
         verify(pedidoRepository, never()).save(any(Pedido.class));
     }
@@ -58,8 +60,8 @@ class UpdateUseCaseTest {
         var orderDTO = new UpdateOrderDTO(1L, "INVALID");
 
         // Act & Assert
-        var exception = assertThrows(RuntimeException.class, () -> updateUseCase.execute(orderDTO));
-        assertEquals("Invalid status", exception.getMessage());
+        var exception = assertThrows(InvalidStatusException.class, () -> updateUseCase.execute(orderDTO));
+        assertEquals(new InvalidStatusException("INVALID").getMessage(), exception.getMessage());
         verify(pedidoRepository, never()).findById(anyLong());
         verify(pedidoRepository, never()).save(any(Pedido.class));
     }
@@ -70,8 +72,8 @@ class UpdateUseCaseTest {
         var orderDTO = new UpdateOrderDTO(1L, "");
 
         // Act & Assert
-        var exception = assertThrows(RuntimeException.class, () -> updateUseCase.execute(orderDTO));
-        assertEquals("Invalid status", exception.getMessage());
+        var exception = assertThrows(InvalidStatusException.class, () -> updateUseCase.execute(orderDTO));
+        assertEquals(new InvalidStatusException("").getMessage(), exception.getMessage());
         verify(pedidoRepository, never()).findById(anyLong());
         verify(pedidoRepository, never()).save(any(Pedido.class));
     }

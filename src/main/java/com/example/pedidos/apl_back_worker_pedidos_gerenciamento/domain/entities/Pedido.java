@@ -43,7 +43,6 @@ public class Pedido {
         this.status = status;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -62,10 +61,6 @@ public class Pedido {
 
     public BigDecimal getValorTotal() {
         return valorTotal;
-    }
-
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
     }
 
     public List<Item> getItens() {

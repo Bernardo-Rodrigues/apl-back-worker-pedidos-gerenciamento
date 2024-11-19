@@ -3,6 +3,7 @@ package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.proc
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Item;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Pedido;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Produto;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.ProductNotFoundException;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.PedidoRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.ProdutoRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.processar_pedido.dto.PedidoDTO;
@@ -23,8 +24,9 @@ public class ProcessarPedidoUseCase {
         Pedido pedido = PedidoMapper.toEntity(pedidoDTO);
 
         for (Item item : pedido.getItens()) {
-            Produto produto = produtoRepository.findById(item.getProduto().getId())
-                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+            var productId = item.getProduto().getId();
+            Produto produto = produtoRepository.findById(productId)
+                    .orElseThrow(() -> new ProductNotFoundException(productId));
 
             item.setProduto(produto);
         }

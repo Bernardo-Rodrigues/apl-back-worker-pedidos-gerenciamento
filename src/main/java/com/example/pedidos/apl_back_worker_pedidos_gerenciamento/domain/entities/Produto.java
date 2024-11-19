@@ -20,9 +20,6 @@ public class Produto {
     @Column(nullable = false)
     private BigDecimal preco;
 
-    // Construtores, getters e setters
-    public Produto() {}
-
     public Produto(Long id, BigDecimal preco) {
         this.id = id;
         this.preco = preco;
