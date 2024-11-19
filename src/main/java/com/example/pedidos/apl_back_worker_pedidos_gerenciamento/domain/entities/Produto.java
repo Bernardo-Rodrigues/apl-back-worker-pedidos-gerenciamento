@@ -43,8 +43,4 @@ public class Produto {
     public BigDecimal getPreco() {
         return preco;
     }
-
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
-    }
 }

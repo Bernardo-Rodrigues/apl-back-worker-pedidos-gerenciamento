@@ -26,7 +26,7 @@ public class Pedido {
 
     public void calcularValorTotal() {
         this.valorTotal = itens.stream()
-                .map(item -> item.getPreco())
+                .map(item -> item.getProduto().getPreco().multiply(BigDecimal.valueOf(item.getQuantidade())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

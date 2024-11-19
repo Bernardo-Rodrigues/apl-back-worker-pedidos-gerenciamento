@@ -18,15 +18,13 @@ public class Item {
     private int quantidade;
 
     @ManyToOne
-    @JoinColumn(name = "pedido_id")
-    @JsonBackReference
-    private Pedido pedido;
-
-    @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
-    private BigDecimal preco;
+    @ManyToOne
+    @JoinColumn(name = "pedido_id")
+    @JsonBackReference
+    private Pedido pedido;
 
     // Getters e Setters
     public Long getId() {
@@ -61,11 +59,4 @@ public class Item {
         this.produto = produto;
     }
 
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
-    }
 }
