@@ -44,6 +44,7 @@ docker-compose -f "docker-compose-app.yaml" up --build
 
 ## Pontos de melhoria
 - Tratamento de exceções
+- Atualizar status do pedido
 - Filtro por status do pedido
 - Paginação pra rota que retorna uma lista de pedidos
 - Implementar testes de integração
