@@ -39,6 +39,10 @@ public class Pedido {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    public void updateStatus(String status) {
+        this.status = status;
+    }
+
     // Getters e Setters
     public Long getId() {
         return id;
