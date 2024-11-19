@@ -24,6 +24,15 @@ public class Pedido {
     @JsonManagedReference
     private List<Item> itens;
 
+    public Pedido(Long id, String status, BigDecimal valorTotal, List<Item> itens) {
+        this.id = id;
+        this.status = status;
+        this.valorTotal = valorTotal;
+        this.itens = itens;
+    }
+
+    public Pedido(){}
+
     public void calcularValorTotal() {
         this.valorTotal = itens.stream()
                 .map(item -> item.getProduto().getPreco().multiply(BigDecimal.valueOf(item.getQuantidade())))

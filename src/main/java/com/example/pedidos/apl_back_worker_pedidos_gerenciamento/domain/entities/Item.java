@@ -1,11 +1,7 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities;
 
-import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Pedido;
-import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Produto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "item")
@@ -25,6 +21,13 @@ public class Item {
     @JoinColumn(name = "pedido_id")
     @JsonBackReference
     private Pedido pedido;
+
+    public Item(Produto product, Integer quantidade){
+        this.produto = product;
+        this.quantidade = quantidade;
+    }
+
+    public Item(){}
 
     // Getters e Setters
     public Long getId() {

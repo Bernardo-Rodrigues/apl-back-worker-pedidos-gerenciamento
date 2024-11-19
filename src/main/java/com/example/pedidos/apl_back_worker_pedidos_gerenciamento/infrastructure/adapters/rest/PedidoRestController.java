@@ -1,8 +1,6 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.infrastructure.adapters.rest;
 
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.controller.pedido.PedidoController;
-import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Pedido;
-import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.PedidoRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.dto.OrderDTO;
 import org.springframework.web.bind.annotation.*;
 

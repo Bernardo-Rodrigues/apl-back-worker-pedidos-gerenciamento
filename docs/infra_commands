@@ -25,7 +25,6 @@ CREATE TABLE master.dbo.item (
     quantidade INT NOT NULL,             -- Quantidade do produto
     pedido_id BIGINT NOT NULL,              -- ID do pedido (chave estrangeira)
     produto_id BIGINT NOT NULL,             -- ID do produto (chave estrangeira)
-    preco DECIMAL(10, 2) NOT NULL,       -- Preço do produto naquele item
     FOREIGN KEY (pedido_id) REFERENCES master.dbo.pedido(id),  -- Chave estrangeira para o pedido
     FOREIGN KEY (produto_id) REFERENCES master.dbo.produto(id) -- Chave estrangeira para o produto
 );

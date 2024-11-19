@@ -1,6 +1,55 @@
 # apl-back-worker-pedidos-gerenciamento
 Projeto para gerenciamento de pedidos via Kafka
 
+## 1 - Suba as dependências da aplicação para os testes locais
+
+#### Executar o comando abaixo:
+```
+docker-compose up --build
+```
+#### Executar os comando presentes no arquivo "docs/infra_commands" para:
+- Criar o tópico kafka que será consumido pela aplicação
+- Criar das Tabelas no SQL Server
+- Popular a tabela "produto" com alguns dados
+
+#### Podem ser usadas interfaces gráficas para facilitar a interação com as dependências
+- Kafka: Offset Eplorer
+- SQL Server: Dbeaver
+
+## 2.1 - Rode a aplicação localmente
+
+```
+mvn spring-boot:run
+```
+
+## 2.2 - Rode a aplicação via docker
+
+OBS: a imagem docker será criada/atualizada através do parametro opcional --build
+
+1 -  Execute o comando maven abaixo
+```
+mvn clean package
+```
+2 -  Execute o comando docker compose abaixo
+```
+docker-compose -f "docker-compose-app.yaml" up --build  
+```
+
+## 3 - Execução
+
+1 - Envie uma mensagem pra o tópico kafka criado anteriormente, assim como o exemplo presente em "docs/msg.json" para realizar a criação de um pedido
+
+2 - Faça requisições nas rotas de consulta para conferir os dados dos pedidos
+- Pode ser usado o Postman junto com a collection presente em "docs/Orders Api.postman_collection" para realizar as consultas
+
+## Pontos de melhoria
+- Tratamento de exceções
+- Filtro por status do pedido
+- Paginação pra rota que retorna uma lista de pedidos
+- Implementar testes de integração
+- Padronizar idioma usado no código
+- Adição de logs pelo fluxo
+
 # spring-boot-clean-architecture
 
 Esqueleto de Microsserviço baseado no clean code e na clean architecture com Spring Boot
