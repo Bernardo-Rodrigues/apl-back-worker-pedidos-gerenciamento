@@ -1,6 +1,8 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.processar_pedido;
 
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.*;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.OrderNotFoundException;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.ProductNotFoundException;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.PedidoRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.ProdutoRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.processar_pedido.dto.ItemDTO;
@@ -62,7 +64,7 @@ class ProcessarPedidoUseCaseTest {
 
         Mockito.when(produtoRepository.findById(1L)).thenReturn(java.util.Optional.empty());
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> processarPedidoUseCase.execute(pedidoDTO));
-        assertEquals("Produto não encontrado", exception.getMessage());
+        RuntimeException exception = assertThrows(ProductNotFoundException.class, () -> processarPedidoUseCase.execute(pedidoDTO));
+        assertEquals(new ProductNotFoundException(produto.getId()).getMessage(), exception.getMessage());
     }
 }
