@@ -1,5 +1,6 @@
 Creating Kafka topics
-docker exec kafka kafka-topics --zookeeper zookeeper:2181 --create --topic pedidos --partitions 1 --replication-factor 1
+docker exec kafka kafka-topics --zookeeper zookeeper:2181 --create --topic topic-local-pedidos-criar --partitions 1 --replication-factor 1
+docker exec kafka kafka-topics --zookeeper zookeeper:2181 --create --topic topic-local-pedidos-atualizar --partitions 1 --replication-factor 1
 
 Creating Database Itens
 DROP TABLE master.dbo.item;
