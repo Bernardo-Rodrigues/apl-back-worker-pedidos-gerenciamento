@@ -1,10 +1,44 @@
 Creating Kafka topics
 docker exec kafka kafka-topics --zookeeper zookeeper:2181 --create --topic pedidos --partitions 1 --replication-factor 1
 
-Creating Database Table
-CREATE TABLE master.dbo.pedido (
- id INT PRIMARY KEY IDENTITY,          -- Campo de ID com auto incremento
-    produto_id INT NOT NULL,              -- ID do produto (não nulo)
-    status VARCHAR(50) NOT NULL,          -- Status do pedido
-    valor_total DECIMAL(10, 2) NOT NULL   -- Valor total do pedido
+Creating Database Itens
+DROP TABLE master.dbo.item;
+DROP TABLE master.dbo.produto;
+DROP TABLE master.dbo.pedido;
+
+-- Tabela para produtos (cada produto tem um preço fixo)
+CREATE TABLE produto (
+    id BIGINT NOT NULL PRIMARY KEY,
+    preco DECIMAL(10, 2) NOT NULL
 );
+
+-- Tabela para pedidos
+CREATE TABLE master.dbo.pedido (
+    id BIGINT PRIMARY KEY IDENTITY,               -- ID do pedido com auto incremento
+    status VARCHAR(50) NOT NULL,               -- Status do pedido
+    valor_total DECIMAL(10, 2) NOT NULL        -- Valor total do pedido (será calculado com base nos itens)
+);
+
+-- Tabela para itens de pedido (cada item tem um produto, quantidade e preço)
+CREATE TABLE master.dbo.item (
+    id BIGINT PRIMARY KEY IDENTITY,        -- ID do item
+    quantidade INT NOT NULL,             -- Quantidade do produto
+    pedido_id BIGINT NOT NULL,              -- ID do pedido (chave estrangeira)
+    produto_id BIGINT NOT NULL,             -- ID do produto (chave estrangeira)
+    preco DECIMAL(10, 2) NOT NULL,       -- Preço do produto naquele item
+    FOREIGN KEY (pedido_id) REFERENCES master.dbo.pedido(id),  -- Chave estrangeira para o pedido
+    FOREIGN KEY (produto_id) REFERENCES master.dbo.produto(id) -- Chave estrangeira para o produto
+);
+
+
+INSERT INTO produto (id, preco) VALUES (98765, 150.00);
+INSERT INTO produto (id, preco) VALUES (54321, 300.00);
+
+SELECT *
+FROM master.dbo.pedido p ;
+
+SELECT *
+FROM master.dbo.produto p ;
+
+SELECT *
+FROM master.dbo.item i ;

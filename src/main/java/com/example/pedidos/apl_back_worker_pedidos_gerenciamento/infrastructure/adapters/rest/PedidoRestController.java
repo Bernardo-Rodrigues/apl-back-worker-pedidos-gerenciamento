@@ -8,11 +8,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
-public class PedidoController {
+public class PedidoRestController {
 
     private final PedidoRepository pedidoRepository;
 
-    public PedidoController(PedidoRepository pedidoRepository) {
+    public PedidoRestController(PedidoRepository pedidoRepository) {
         this.pedidoRepository = pedidoRepository;
     }
 
@@ -23,6 +23,6 @@ public class PedidoController {
 
     @GetMapping("/products/{productId}")
     public List<Pedido> getByProductId(@PathVariable Long productId) {
-        return pedidoRepository.findByProdutoId(productId);
+        return pedidoRepository.findByItensProdutoId(productId);
     }
 }
