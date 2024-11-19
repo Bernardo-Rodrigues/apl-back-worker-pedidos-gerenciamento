@@ -29,9 +29,6 @@ public class ProcessarPedidoUseCase {
                     .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
             item.setProduto(produto);
-
-            BigDecimal precoItem = produto.getPreco().multiply(BigDecimal.valueOf(item.getQuantidade()));
-            item.setPreco(precoItem);
         }
 
         pedido.calcularValorTotal();

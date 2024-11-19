@@ -1,0 +1,49 @@
+{
+	"info": {
+		"_postman_id": "5cd2541a-43f8-4404-aba0-766f8aadc9b1",
+		"name": "Orders API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26189305"
+	},
+	"item": [
+		{
+			"name": "Find By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/orders/1",
+					"host": [
+						"http://localhost:8080"
+					],
+					"path": [
+						"api/v1",
+						"orders",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find By Product Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/orders/products/1",
+					"host": [
+						"http://localhost:8080"
+					],
+					"path": [
+						"api/v1",
+						"orders",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
