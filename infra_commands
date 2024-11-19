@@ -1,0 +1,10 @@
+Creating Kafka topics
+docker exec kafka kafka-topics --zookeeper zookeeper:2181 --create --topic pedidos --partitions 1 --replication-factor 1
+
+Creating Database Table
+CREATE TABLE master.dbo.pedido (
+ id INT PRIMARY KEY IDENTITY,          -- Campo de ID com auto incremento
+    produto_id INT NOT NULL,              -- ID do produto (não nulo)
+    status VARCHAR(50) NOT NULL,          -- Status do pedido
+    valor_total DECIMAL(10, 2) NOT NULL   -- Valor total do pedido
+);
