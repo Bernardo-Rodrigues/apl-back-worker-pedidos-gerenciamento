@@ -36,11 +36,11 @@ public class PedidoController {
         updateUseCase.execute(orderDTO);
     }
 
-    public OrderDTO getById(@PathVariable Long id) {
+    public OrderDTO getById(Long id) {
         return findByIdUseCase.execute(id);
     }
 
-    public List<OrderDTO> getByProductId(@PathVariable Long productId) {
+    public List<OrderDTO> getByProductId(Long productId) {
         return findByProductIdUseCase.execute(productId);
     }
 }

@@ -2,6 +2,7 @@ package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.infrastructure
 
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.controller.pedido.PedidoController;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.processar_pedido.update.dto.UpdateOrderDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -29,14 +30,14 @@ public class UpdateOrderConsumer {
             UpdateOrderDTO orderDTO = objectMapper.readValue(message, UpdateOrderDTO.class);
 
             pedidoController.updateOrder(orderDTO);
-
+        } catch (JsonProcessingException ex) {
+            LOG.severe("Error Parsing Json");
+        }catch (Exception ex) {
+            LOG.severe(format("Error on Consumer Message and Commit [%s]", ex.getMessage()));
+            throw new RuntimeException("Error processing message", ex);
+        }finally {
             acknowledgment.acknowledge();
             LOG.info("Exiting listener");
-
-        } catch (Exception ex) {
-            LOG.severe(format("Error on Consumer Message and Commit [%s]", ex.getMessage()));
-            acknowledgment.acknowledge();
-            throw new RuntimeException("Error processing message", ex);
         }
     }
 }
