@@ -16,7 +16,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"com.example.pedidos.apl_back_worker_pedidos_gerenciamento.infrastructure.configuration",
 		"com.example.pedidos.apl_back_worker_pedidos_gerenciamento.infrastructure.adapters.rest;",
 		"com.example.pedidos.apl_back_worker_pedidos_gerenciamento.infrastructure.adapters.messaging",
-		"com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.processar_pedido"
+		"com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.processar_pedido",
+		"com.example.pedidos.apl_back_worker_pedidos_gerenciamento.controller.pedido"
 })
 @EntityScan("com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities")
 @EnableJpaRepositories("com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories")

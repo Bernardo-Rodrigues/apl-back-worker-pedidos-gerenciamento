@@ -23,9 +23,8 @@ public class KafkaConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    @Value("${spring.kafka.consumer.group-id")
-    private String consumerGroup;
-
+    @Value("${spring.kafka.orders.consumer.group-id")
+    private String ordersConsumerGroup;
 
     @Bean
     KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
@@ -49,7 +48,7 @@ public class KafkaConfig {
         propsMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         propsMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroup);
+        propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, ordersConsumerGroup);
 
         return propsMap;
     }

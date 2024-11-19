@@ -1,0 +1,17 @@
+{
+  "itens": [
+    {
+      "quantidade": 2,
+      "produto": {
+        "id": 98765
+      }
+    },
+    {
+      "quantidade": 1,
+      "produto": {
+        "id": 54321
+      }
+    }
+  ],
+  "status": "PENDENTE"
+}
