@@ -18,7 +18,7 @@ public class ListByProductIdUseCase {
     }
 
     public List<OrderDTO> execute(Long productId) {
-        return orderRepository.findByItemsProductId(productId)
+        return orderRepository.findByProductId(productId)
                 .stream()
                 .map(FindOrderMapper::toDTO)
                 .collect(Collectors.toList());

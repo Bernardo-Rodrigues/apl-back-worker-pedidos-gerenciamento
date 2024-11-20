@@ -1,30 +1,21 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Entity
-@Table(name = "pedido")
 public class Order {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String status;
+    private OrderStatus status;
 
-    @Column(name = "valor_total", nullable = false)
     private BigDecimal totalValue;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "order")
-    @JsonManagedReference
     private List<Item> items;
 
-    public Order(Long id, String status, BigDecimal totalValue, List<Item> items) {
+    public Order(Long id, OrderStatus status, BigDecimal totalValue, List<Item> items) {
         this.id = id;
         this.status = status;
         this.totalValue = totalValue;
@@ -39,7 +30,7 @@ public class Order {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public void updateStatus(String status) {
+    public void updateStatus(OrderStatus status) {
         this.status = status;
     }
 
@@ -51,16 +42,19 @@ public class Order {
         this.id = id;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
     public BigDecimal getTotalValue() {
         return totalValue;
+    }
+    public void setTotalValue(BigDecimal totalValue) {
+        this.totalValue = totalValue;
     }
 
     public List<Item> getItems() {
