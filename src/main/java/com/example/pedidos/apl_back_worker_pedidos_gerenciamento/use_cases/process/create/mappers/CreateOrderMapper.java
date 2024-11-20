@@ -26,8 +26,6 @@ public class CreateOrderMapper {
 
         order.setItems(itens);
 
-        order.setStatus(orderDTO.status());
-
         return order;
     }
 }

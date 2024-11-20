@@ -3,6 +3,7 @@ package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.proc
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Item;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Order;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Product;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.enums.OrderStatus;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.ProductNotFoundException;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.OrderRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.ProductRepository;
@@ -32,6 +33,7 @@ public class CreateUseCase {
         }
 
         order.calculateTotalValue();
+        order.setStatus(OrderStatus.PENDING);
 
         return orderRepository.save(order);
     }
