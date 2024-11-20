@@ -7,6 +7,6 @@ import java.util.List;
 public record OrderDTO(
         Long id,
         String status,
-        BigDecimal valorTotal,
-        List<ItemDTO> itens
+        BigDecimal totalValue,
+        List<ItemDTO> items
 ) {}

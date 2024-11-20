@@ -11,21 +11,21 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "produto")
-public class Produto {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private BigDecimal preco;
+    private BigDecimal price;
 
-    public Produto(Long id, BigDecimal preco) {
+    public Product(Long id, BigDecimal price) {
         this.id = id;
-        this.preco = preco;
+        this.price = price;
     }
 
-    public Produto(Long id) {
+    public Product(Long id) {
         this.id = id;
     }
 
@@ -37,7 +37,7 @@ public class Produto {
         this.id = id;
     }
 
-    public BigDecimal getPreco() {
-        return preco;
+    public BigDecimal getPrice() {
+        return price;
     }
 }

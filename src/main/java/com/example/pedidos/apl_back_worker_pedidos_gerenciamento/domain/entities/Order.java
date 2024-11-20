@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pedido")
-public class Pedido {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,24 +18,24 @@ public class Pedido {
     private String status;
 
     @Column(name = "valor_total", nullable = false)
-    private BigDecimal valorTotal;
+    private BigDecimal totalValue;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "pedido")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "order")
     @JsonManagedReference
-    private List<Item> itens;
+    private List<Item> items;
 
-    public Pedido(Long id, String status, BigDecimal valorTotal, List<Item> itens) {
+    public Order(Long id, String status, BigDecimal totalValue, List<Item> items) {
         this.id = id;
         this.status = status;
-        this.valorTotal = valorTotal;
-        this.itens = itens;
+        this.totalValue = totalValue;
+        this.items = items;
     }
 
-    public Pedido(){}
+    public Order(){}
 
-    public void calcularValorTotal() {
-        this.valorTotal = itens.stream()
-                .map(item -> item.getProduto().getPreco().multiply(BigDecimal.valueOf(item.getQuantidade())))
+    public void calculateTotalValue() {
+        this.totalValue = items.stream()
+                .map(item -> item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
@@ -59,15 +59,15 @@ public class Pedido {
         this.status = status;
     }
 
-    public BigDecimal getValorTotal() {
-        return valorTotal;
+    public BigDecimal getTotalValue() {
+        return totalValue;
     }
 
-    public List<Item> getItens() {
-        return itens;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setItens(List<Item> itens) {
-        this.itens = itens;
+    public void setItems(List<Item> itens) {
+        this.items = itens;
     }
 }
