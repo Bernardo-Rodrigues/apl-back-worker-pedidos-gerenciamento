@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, WebRequest request) {
         Map<String, Object> response = new HashMap<>();
-        response.put("status", 404);
+        response.put("status", HttpStatus.NOT_FOUND.value());
         response.put("error", "Not Found");
         response.put("message", "The requested resource could not be found.");
         response.put("path", request.getDescription(false));
@@ -29,7 +29,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<Object> handleBusinessException(BusinessException ex) {
         Map<String, Object> errorResponse = Map.of(
-                "timestamp", LocalDateTime.now(),
                 "status", HttpStatus.BAD_REQUEST.value(),
                 "error", "Bad Request",
                 "message", ex.getMessage()
@@ -41,7 +40,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
         Map<String, Object> response = new HashMap<>();
-        response.put("status", 500);
+        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.put("error", "Internal Server Error");
         response.put("message", ex.getMessage());
         response.put("path", request.getDescription(false));
