@@ -39,25 +39,25 @@ class ListByProductIdUseCaseTest {
 
         Order order = new Order(1L, "PENDENTE", new BigDecimal("0.00"), items);
 
-        Mockito.when(orderRepository.findByItemsProductId(productId))
+        Mockito.when(orderRepository.findByProductId(productId))
                 .thenReturn(Stream.of(order).collect(Collectors.toList()));
 
         List<OrderDTO> result = listByProductIdUseCase.execute(productId);
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        Mockito.verify(orderRepository).findByItemsProductId(productId);
+        Mockito.verify(orderRepository).findByProductId(productId);
     }
 
     @Test
     void testExecute_ShouldReturnEmptyList_WhenNoPedidosFoundForProduct() {
         Long productId = 1L;
-        Mockito.when(orderRepository.findByItemsProductId(productId)).thenReturn(List.of());
+        Mockito.when(orderRepository.findByProductId(productId)).thenReturn(List.of());
 
         List<OrderDTO> result = listByProductIdUseCase.execute(productId);
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
-        Mockito.verify(orderRepository).findByItemsProductId(productId);
+        Mockito.verify(orderRepository).findByProductId(productId);
     }
 }

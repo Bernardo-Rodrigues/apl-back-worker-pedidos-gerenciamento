@@ -1,6 +1,7 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.process.update;
 
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Order;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.enums.OrderStatus;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.InvalidStatusException;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.OrderNotFoundException;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.OrderRepository;
@@ -23,7 +24,7 @@ class UpdateUseCaseTest {
         // Arrange
         var pedido = new Order();
         pedido.setId(1L);
-        pedido.setStatus("PENDING");
+        pedido.setStatus(OrderStatus.PENDING);
 
         var orderDTO = new UpdateOrderDTO(1L, "FINISHED");
 

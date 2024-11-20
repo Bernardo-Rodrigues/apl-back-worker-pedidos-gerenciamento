@@ -1,6 +1,7 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.process.create;
 
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.*;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.enums.OrderStatus;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.ProductNotFoundException;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.OrderRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.ProductRepository;
@@ -36,11 +37,11 @@ class CreateUseCaseTest {
     void testExecute_ShouldProcessPedidoSuccessfully() {
         Product product = new Product(1L, new BigDecimal("50.00"));
         Item item = new Item(product, 2);
-        CreateOrderDTO orderDTO = new CreateOrderDTO(List.of(new ItemDTO(item.getQuantity(), new ProductDTO(item.getProduct().getId()))), "PENDENTE");
+        CreateOrderDTO orderDTO = new CreateOrderDTO(List.of(new ItemDTO(item.getQuantity(), new ProductDTO(item.getProduct().getId()))));
 
         Item item1 = new Item(product, 2);
         List<Item> items = Arrays.asList(item1);
-        Order order = new Order(1L, "PENDENTE", new BigDecimal("0.00"), items);
+        Order order = new Order(1L, OrderStatus.PENDING, new BigDecimal("0.00"), items);
         order.calculateTotalValue();
 
         Mockito.when(productRepository.findById(1L)).thenReturn(java.util.Optional.of(product));
@@ -58,7 +59,7 @@ class CreateUseCaseTest {
     void testExecute_ShouldThrowException_WhenProdutoNotFound() {
         Product product = new Product(1L, new BigDecimal("50.00"));
         Item item = new Item(product, 2);
-        CreateOrderDTO orderDTO = new CreateOrderDTO(List.of(new ItemDTO(item.getQuantity(), new ProductDTO(item.getProduct().getId()))), "PENDENTE");
+        CreateOrderDTO orderDTO = new CreateOrderDTO(List.of(new ItemDTO(item.getQuantity(), new ProductDTO(item.getProduct().getId()))));
 
         Mockito.when(productRepository.findById(1L)).thenReturn(java.util.Optional.empty());
 
