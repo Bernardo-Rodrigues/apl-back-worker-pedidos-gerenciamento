@@ -1,7 +1,7 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.infrastructure.adapters.messaging;
 
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.controller.order.OrderController;
-import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.process.update.dto.UpdateOrderDTO;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.process.create.dto.CreateOrderDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,24 +14,24 @@ import java.util.logging.Logger;
 import static java.lang.String.format;
 
 @Component
-public class UpdateOrderConsumer {
+public class CreateOrderConsumer {
     @Autowired
     private OrderController orderController;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private static final Logger LOG = Logger.getLogger(UpdateOrderConsumer.class.getName());
+    private static final Logger LOG = Logger.getLogger(CreateOrderConsumer.class.getName());
 
-    @KafkaListener(topics = "${spring.kafka.orders.update.topic}", groupId = "${spring.kafka.orders.consumer.group-id}")
+    @KafkaListener(topics = "${spring.kafka.orders.topic}", groupId = "${spring.kafka.orders.consumer.group-id}")
     public void consume(String message, Acknowledgment acknowledgment) {
         try {
             LOG.info(format("Consumed message: %s", message));
 
-            UpdateOrderDTO orderDTO = objectMapper.readValue(message, UpdateOrderDTO.class);
+            CreateOrderDTO orderDTO = objectMapper.readValue(message, CreateOrderDTO.class);
 
-            orderController.update(orderDTO);
+            orderController.create(orderDTO);
         } catch (JsonProcessingException ex) {
-            LOG.severe("Error Parsing Json");
+            LOG.severe("Error Parsing Json: " + ex.getMessage());
         }catch (Exception ex) {
             LOG.severe(format("Error on Consumer Message and Commit [%s]", ex.getMessage()));
         }finally {

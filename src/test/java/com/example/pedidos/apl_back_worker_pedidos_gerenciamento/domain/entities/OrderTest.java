@@ -10,28 +10,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class OrderTest {
 
-    private Pedido pedido;
+    private Order order;
 
     @BeforeEach
     void setUp() {
-        pedido = new Pedido();
+        order = new Order();
 
-        Item item1 = new Item();
-        item1.setProduto(new Produto(1l, BigDecimal.valueOf(10.00)));
-        item1.setQuantidade(2);
+        Item item1 = new Item(new Product(1l, BigDecimal.valueOf(10.00)), 2);
+        Item item2 = new Item(new Product(2l, BigDecimal.valueOf(20.00)), 1);
 
-        Item item2 = new Item();
-        item2.setProduto(new Produto(2l, BigDecimal.valueOf(20.00)));
-        item2.setQuantidade(1);
-
-        pedido.setItens(Arrays.asList(item1, item2));
+        order.setItems(Arrays.asList(item1, item2));
     }
 
     @Test
     void calcularValorTotalTest() {
-        pedido.calcularValorTotal();
+        order.calculateTotalValue();
 
         BigDecimal valorEsperado = BigDecimal.valueOf(40.00);
-        assertEquals(valorEsperado, pedido.getValorTotal());
+        assertEquals(valorEsperado, order.getTotalValue());
     }
 }
