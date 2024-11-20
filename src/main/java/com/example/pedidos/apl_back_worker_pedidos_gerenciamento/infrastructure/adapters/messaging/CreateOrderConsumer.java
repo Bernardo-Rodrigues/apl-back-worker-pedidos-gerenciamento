@@ -30,15 +30,10 @@ public class CreateOrderConsumer {
             CreateOrderDTO orderDTO = objectMapper.readValue(message, CreateOrderDTO.class);
 
             orderController.create(orderDTO);
-
-            acknowledgment.acknowledge();
-            LOG.info("Exiting listener");
-
         } catch (JsonProcessingException ex) {
-            LOG.severe("Error Parsing Json");
+            LOG.severe("Error Parsing Json: " + ex.getMessage());
         }catch (Exception ex) {
             LOG.severe(format("Error on Consumer Message and Commit [%s]", ex.getMessage()));
-            throw new RuntimeException("Error processing message", ex);
         }finally {
             acknowledgment.acknowledge();
             LOG.info("Exiting listener");
