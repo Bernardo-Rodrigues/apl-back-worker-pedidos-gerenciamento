@@ -3,6 +3,7 @@ package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.proc
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.*;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.enums.OrderStatus;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.ProductNotFoundException;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.producers.OrderProducer;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.OrderRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.ProductRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.process.create.dto.CreateOrderDTO;
@@ -20,12 +21,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
 
 @ExtendWith(MockitoExtension.class)
 class CreateUseCaseTest {
 
     @Mock
     private OrderRepository orderRepository;
+
+    @Mock
+    private OrderProducer orderProducer;
 
     @Mock
     private ProductRepository productRepository;
@@ -35,6 +40,7 @@ class CreateUseCaseTest {
 
     @Test
     void testExecute_ShouldProcessPedidoSuccessfully() {
+        String correlationId = "correlationId";
         Product product = new Product(1L, new BigDecimal("50.00"));
         Item item = new Item(product, 2);
         CreateOrderDTO orderDTO = new CreateOrderDTO(List.of(new ItemDTO(item.getQuantity(), new ProductDTO(item.getProduct().getId()))));
@@ -47,23 +53,23 @@ class CreateUseCaseTest {
         Mockito.when(productRepository.findById(1L)).thenReturn(java.util.Optional.of(product));
         Mockito.when(orderRepository.save(Mockito.any(Order.class))).thenReturn(order);
 
-        Order result = createUseCase.execute(orderDTO);
+        createUseCase.execute(correlationId, orderDTO);
 
-        assertNotNull(result);
-        assertEquals(new BigDecimal("100.00"), result.getTotalValue());
         Mockito.verify(productRepository).findById(1L);
         Mockito.verify(orderRepository).save(Mockito.any(Order.class));
+        Mockito.verify(orderProducer).sendCalculatedOrderMessage(eq(correlationId), Mockito.anyLong());
     }
 
     @Test
     void testExecute_ShouldThrowException_WhenProdutoNotFound() {
+        String correlationId = "correlationId";
         Product product = new Product(1L, new BigDecimal("50.00"));
         Item item = new Item(product, 2);
         CreateOrderDTO orderDTO = new CreateOrderDTO(List.of(new ItemDTO(item.getQuantity(), new ProductDTO(item.getProduct().getId()))));
 
         Mockito.when(productRepository.findById(1L)).thenReturn(java.util.Optional.empty());
 
-        RuntimeException exception = assertThrows(ProductNotFoundException.class, () -> createUseCase.execute(orderDTO));
+        RuntimeException exception = assertThrows(ProductNotFoundException.class, () -> createUseCase.execute(correlationId, orderDTO));
         assertEquals(new ProductNotFoundException(product.getId()).getMessage(), exception.getMessage());
     }
 }

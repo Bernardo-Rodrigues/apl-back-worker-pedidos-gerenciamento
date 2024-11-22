@@ -3,6 +3,7 @@ package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Item;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Order;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Product;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.enums.OrderStatus;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.OrderNotFoundException;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.OrderRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.dto.OrderDTO;
@@ -36,7 +37,7 @@ class FindByIdUseCaseTest {
 
         List<Item> itens = Arrays.asList(item1, item2);
 
-        Order order = new Order(orderId, "PENDENTE", new BigDecimal("0.00"), itens);
+        Order order = new Order(orderId, OrderStatus.PENDING, new BigDecimal("0.00"), itens);
 
         Mockito.when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
