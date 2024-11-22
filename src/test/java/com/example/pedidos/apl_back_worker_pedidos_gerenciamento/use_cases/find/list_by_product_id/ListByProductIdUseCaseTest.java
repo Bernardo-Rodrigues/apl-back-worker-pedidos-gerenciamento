@@ -3,6 +3,7 @@ package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Item;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Order;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Product;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.enums.OrderStatus;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.OrderRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.dto.OrderDTO;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ class ListByProductIdUseCaseTest {
 
         List<Item> items = Arrays.asList(item1, item2);
 
-        Order order = new Order(1L, "PENDENTE", new BigDecimal("0.00"), items);
+        Order order = new Order(1L, OrderStatus.PENDING, new BigDecimal("0.00"), items);
 
         Mockito.when(orderRepository.findByProductId(productId))
                 .thenReturn(Stream.of(order).collect(Collectors.toList()));

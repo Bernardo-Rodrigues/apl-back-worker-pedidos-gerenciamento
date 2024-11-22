@@ -38,3 +38,10 @@ services:
       MSSQL_TLS_CERT: "false"
     ports:
       - "1433:1433"
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
