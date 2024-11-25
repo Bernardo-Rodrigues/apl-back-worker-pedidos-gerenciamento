@@ -1,17 +1,25 @@
+topic-local-pedido-criar
+
 {
   "itens": [
     {
       "quantidade": 2,
       "produto": {
-        "id": 98765
+        "id": 1
       }
     },
     {
       "quantidade": 1,
       "produto": {
-        "id": 54321
+        "id": 2
       }
     }
-  ],
-  "status": "PENDENTE"
+  ]
+}
+
+topic-local-pedido-atualizar
+
+{
+  "id": 1,
+  "status": "Cancelado"
 }

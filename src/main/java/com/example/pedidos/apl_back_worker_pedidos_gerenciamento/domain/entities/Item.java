@@ -1,35 +1,22 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "item")
 public class Item {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int quantidade;
+    private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "produto_id")
-    private Produto produto;
+    private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "pedido_id")
-    @JsonBackReference
-    private Pedido pedido;
+    private Order order;
 
-    public Item(Produto product, Integer quantidade){
-        this.produto = product;
-        this.quantidade = quantidade;
+    public Item(Product product, Integer quantity){
+        this.product = product;
+        this.quantity = quantity;
     }
 
     public Item(){}
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -38,28 +25,28 @@ public class Item {
         this.id = id;
     }
 
-    public int getQuantidade() {
-        return quantidade;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public Pedido getPedido() {
-        return pedido;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public Produto getProduto() {
-        return produto;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
 }

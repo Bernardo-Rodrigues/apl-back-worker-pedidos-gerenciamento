@@ -1,22 +1,23 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.find_by_id;
 
-import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.PedidoRepository;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.OrderNotFoundException;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.OrderRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.dto.OrderDTO;
-import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.mappers.OrderMapper;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.mappers.FindOrderMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FindByIdUseCase {
 
-    private final PedidoRepository pedidoRepository;
+    private final OrderRepository orderRepository;
 
-    public FindByIdUseCase(PedidoRepository pedidoRepository) {
-        this.pedidoRepository = pedidoRepository;
+    public FindByIdUseCase(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
     public OrderDTO execute(Long id) {
-        return pedidoRepository.findById(id)
-                .map(OrderMapper::toDTO)
-                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+        return orderRepository.findById(id)
+                .map(FindOrderMapper::toDTO)
+                .orElseThrow(() -> new OrderNotFoundException(id));
     }
 }

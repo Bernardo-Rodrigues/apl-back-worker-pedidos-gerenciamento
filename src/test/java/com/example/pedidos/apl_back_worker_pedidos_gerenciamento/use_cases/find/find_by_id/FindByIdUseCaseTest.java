@@ -1,9 +1,11 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.find_by_id;
 
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Item;
-import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Pedido;
-import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Produto;
-import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.PedidoRepository;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Order;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities.Product;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.enums.OrderStatus;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.OrderNotFoundException;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.OrderRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.dto.OrderDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,35 +24,35 @@ import static org.junit.jupiter.api.Assertions.*;
 class FindByIdUseCaseTest {
 
     @Mock
-    private PedidoRepository pedidoRepository;
+    private OrderRepository orderRepository;
 
     @InjectMocks
     private FindByIdUseCase findByIdUseCase;
 
     @Test
     void testExecute_ShouldReturnOrderDTO_WhenPedidoExists() {
-        Long pedidoId = 1L;
-        Item item1 = new Item(new Produto(1L, new BigDecimal("100.00")), 2);
-        Item item2 = new Item(new Produto(2L, new BigDecimal("50.00")), 2);
+        Long orderId = 1L;
+        Item item1 = new Item(new Product(1L, new BigDecimal("100.00")), 2);
+        Item item2 = new Item(new Product(2L, new BigDecimal("50.00")), 2);
 
         List<Item> itens = Arrays.asList(item1, item2);
 
-        Pedido pedido = new Pedido(pedidoId, "PENDENTE", new BigDecimal("0.00"), itens);
+        Order order = new Order(orderId, OrderStatus.PENDING, new BigDecimal("0.00"), itens);
 
-        Mockito.when(pedidoRepository.findById(pedidoId)).thenReturn(Optional.of(pedido));
+        Mockito.when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
-        OrderDTO result = findByIdUseCase.execute(pedidoId);
+        OrderDTO result = findByIdUseCase.execute(orderId);
 
         assertNotNull(result);
-        Mockito.verify(pedidoRepository).findById(pedidoId);
+        Mockito.verify(orderRepository).findById(orderId);
     }
 
     @Test
     void testExecute_ShouldThrowException_WhenPedidoNotFound() {
-        Long pedidoId = 1L;
-        Mockito.when(pedidoRepository.findById(pedidoId)).thenReturn(Optional.empty());
+        Long orderId = 1L;
+        Mockito.when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> findByIdUseCase.execute(pedidoId));
-        assertEquals("Pedido não encontrado", exception.getMessage());
+        RuntimeException exception = assertThrows(OrderNotFoundException.class, () -> findByIdUseCase.execute(orderId));
+        assertEquals(new OrderNotFoundException(orderId).getMessage(), exception.getMessage());
     }
 }

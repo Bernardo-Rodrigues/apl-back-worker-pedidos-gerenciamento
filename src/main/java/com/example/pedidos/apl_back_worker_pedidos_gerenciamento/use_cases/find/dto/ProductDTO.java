@@ -4,5 +4,5 @@ import java.math.BigDecimal;
 
 public record ProductDTO(
         Long id,
-        BigDecimal preco
+        BigDecimal price
 ) {}
