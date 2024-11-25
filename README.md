@@ -43,13 +43,9 @@ docker-compose -f "docker-compose-app.yaml" up --build
 - Pode ser usado o Postman junto com a collection presente em "docs/Orders Api.postman_collection" para realizar as consultas
 
 ## Pontos de melhoria
-- Tratamento de exceções
-- Atualizar status do pedido
-- Filtro por status do pedido
+- Filtro por status do pedido na consulta
 - Paginação pra rota que retorna uma lista de pedidos
 - Implementar testes de integração
-- Padronizar idioma usado no código
-- Adição de logs pelo fluxo
 
 # spring-boot-clean-architecture
 

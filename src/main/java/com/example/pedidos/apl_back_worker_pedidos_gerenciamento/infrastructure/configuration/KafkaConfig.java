@@ -12,12 +12,12 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties;
+import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@EnableKafka
 public class KafkaConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
@@ -29,11 +29,12 @@ public class KafkaConfig {
     @Bean
     KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
+
         factory.setConsumerFactory(consumerFactory());
-
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
-
         factory.getContainerProperties().setSyncCommits(true);
+        factory.setRecordMessageConverter(new StringJsonMessageConverter());
+
         return factory;
     }
 

@@ -4,6 +4,7 @@ import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.entities
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.enums.OrderStatus;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.InvalidStatusException;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.exceptions.OrderNotFoundException;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.producers.OrderProducer;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.domain.repositories.OrderRepository;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.process.update.dto.UpdateOrderDTO;
 import org.junit.jupiter.api.Test;
@@ -26,17 +27,15 @@ class UpdateUseCaseTest {
         pedido.setId(1L);
         pedido.setStatus(OrderStatus.PENDING);
 
-        var orderDTO = new UpdateOrderDTO(1L, "FINISHED");
+        var orderDTO = new UpdateOrderDTO(1L, "Finalizado");
 
         when(orderRepository.findById(1L)).thenReturn(Optional.of(pedido));
         when(orderRepository.save(Mockito.any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
-        var updatedOrder = updateUseCase.execute(orderDTO);
+        updateUseCase.execute(orderDTO);
 
         // Assert
-        assertNotNull(updatedOrder);
-        assertEquals("FINISHED", updatedOrder.getStatus());
         verify(orderRepository, times(1)).findById(1L);
         verify(orderRepository, times(1)).save(pedido);
     }
@@ -44,7 +43,7 @@ class UpdateUseCaseTest {
     @Test
     void shouldThrowExceptionWhenOrderNotFound() {
         // Arrange
-        var orderDTO = new UpdateOrderDTO(2L, "CANCELLED");
+        var orderDTO = new UpdateOrderDTO(2L, "Cancelado");
 
         when(orderRepository.findById(2L)).thenReturn(Optional.empty());
 

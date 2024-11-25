@@ -1,5 +1,8 @@
 package com.example.pedidos.apl_back_worker_pedidos_gerenciamento.controller.order;
 
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.controller.exceptions.DuplicatedCorrelationIdException;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.controller.exceptions.MissingCorrelationIdException;
+import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.controller.services.CorrelationIdService;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.dto.OrderDTO;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.find_by_id.FindByIdUseCase;
 import com.example.pedidos.apl_back_worker_pedidos_gerenciamento.use_cases.find.list_by_product_id.ListByProductIdUseCase;
@@ -27,8 +30,21 @@ public class OrderController {
     @Autowired
     private ListByProductIdUseCase listByProductIdUseCase;
 
-    public void create(CreateOrderDTO createOrderDTO) {
-        createUseCase.execute(createOrderDTO);
+    @Autowired
+    private CorrelationIdService correlationIdService;
+
+    public void create(String correlationId, CreateOrderDTO createOrderDTO) {
+        if (correlationId == null || correlationId.isBlank()){
+            throw new MissingCorrelationIdException();
+        }
+
+        if (correlationIdService.isDuplicate(correlationId)){
+            throw new DuplicatedCorrelationIdException();
+        };
+
+        createUseCase.execute(correlationId, createOrderDTO);
+
+        correlationIdService.registerCorrelationId(correlationId);
     }
 
     public void update(UpdateOrderDTO updateOrderDTO) {
